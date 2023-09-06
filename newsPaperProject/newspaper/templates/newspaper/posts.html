@@ -32,7 +32,7 @@
         <td><a href="{#% url 'newspaper:post_detail' post.id %#}">{{ post.title|censored }}</a></td>
         <td>{{ post.data_post_creation|date:"d M Y" }}</td>
         <td>{{ post.text|censored|truncatewords:15 }}</td>
-        <td>{{ post.author|multiply:2 }}</td>
+        <td>{{ post.author }}</td>
         <td>
         {% for c in post.category.values %}
         <a href="{#% url 'newspaper:category' c.id %#}">{{ c.name }}</a>
@@ -45,6 +45,10 @@
     </tr>
     {% endfor %}
 </table>
+<div>
+  {% include 'newspaper/parts/paginator.html' %}  
+</div>
+
 {% else %}
     <h2>Новостей нет!</h2>
 {% endif %}

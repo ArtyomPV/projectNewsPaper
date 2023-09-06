@@ -1,7 +1,7 @@
 from datetime import date
 from django.utils import timezone
 from django.shortcuts import render
-
+from django.core.paginator import Paginator
 # Create your views here.
 from django.views.generic import ListView, DetailView
 from .models import Post
@@ -13,6 +13,8 @@ class PostList(ListView):
     # в котором будет лежать HTML, в нём будут все инструкции о том, как именно пользователю должны вывестись наши объекты
     context_object_name = 'posts'  # это имя списка, в котором будут лежать все объекты,
     # его надо указать, чтобы обратиться к самому списку объектов через HTML-шаблон
+    ordering = ['-data_post_creation']
+    paginate_by = 1
 
        # метод get_context_data нужен нам для того, 
        # чтобы мы могли передать переменные в шаблон. 
