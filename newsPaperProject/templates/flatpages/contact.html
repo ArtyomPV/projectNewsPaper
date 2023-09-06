@@ -1,0 +1,17 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}
+{{ flatpage.title }}
+{% endblock title %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            {% block content %}
+            <h1>{{ flatpage.title }}</h1>
+            <br>
+            {{ flatpage.content }}
+            {% endblock content %}
+        </div>
+    </div>
+ </div>
+
