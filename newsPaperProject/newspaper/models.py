@@ -9,6 +9,10 @@ class Author(models.Model):
     author_name = models.OneToOneField(User, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
 
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
+
     def __str__(self):
         return f'{self.author_name.username}'
 
@@ -62,6 +66,10 @@ class Post(models.Model):
 
     def preview(self):
         return self.text[0:123] + '...'
+    
+    class Meta:
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
 
 
 class Category(models.Model):
@@ -70,6 +78,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = 'Наименование категории'
+        verbose_name_plural = 'Наименование категорий'
 
 
 class PostCategory(models.Model):
@@ -94,3 +106,7 @@ class Comment(models.Model):
     def dislike(self):
         self.rating_comment -= 1
         self.save()
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
