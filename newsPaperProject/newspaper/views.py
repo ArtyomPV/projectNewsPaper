@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 # Create your views here.
 from django.views.generic import ListView, DetailView
 from .models import Post
+from .filters import PostFilter 
 
 
 class PostList(ListView):
@@ -14,7 +15,7 @@ class PostList(ListView):
     context_object_name = 'posts'  # это имя списка, в котором будут лежать все объекты,
     # его надо указать, чтобы обратиться к самому списку объектов через HTML-шаблон
     ordering = ['-data_post_creation']
-    paginate_by = 1
+    paginate_by = 2
 
        # метод get_context_data нужен нам для того, 
        # чтобы мы могли передать переменные в шаблон. 
@@ -28,6 +29,7 @@ class PostList(ListView):
         context['time_now'] = timezone.localtime(timezone.now())
         # добавим ещё одну пустую переменную, чтобы на её примере посмотреть работу другого фильтра
         context['value'] = None
+        context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset()) # вписываем наш фильтр в контекст
         return context
 
 class PostDetailView(DetailView):
