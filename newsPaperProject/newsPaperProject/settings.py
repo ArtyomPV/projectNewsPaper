@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     # подключаем ещё приложения
     'django.contrib.sites',
     'django.contrib.flatpages',
+
+    'newspaper',
 ]
 
 MIDDLEWARE = [
