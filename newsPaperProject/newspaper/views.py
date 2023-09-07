@@ -1,11 +1,17 @@
-from datetime import date
-from django.utils import timezone
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy, resolve
+from django.views import View
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-# Create your views here.
-from django.views.generic import ListView, DetailView
-from .models import Post
-from .filters import PostFilter 
+from .models import Post, Category
+from .filters import PostFilter
+from .forms import PostForm
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.mail import EmailMultiAlternatives
+from datetime import datetime
+from django.utils import timezone
 
 
 class PostList(ListView):
@@ -16,6 +22,7 @@ class PostList(ListView):
     # его надо указать, чтобы обратиться к самому списку объектов через HTML-шаблон
     ordering = ['-data_post_creation']
     paginate_by = 2
+    form_class = PostForm
 
        # метод get_context_data нужен нам для того, 
        # чтобы мы могли передать переменные в шаблон. 
@@ -30,10 +37,44 @@ class PostList(ListView):
         # добавим ещё одну пустую переменную, чтобы на её примере посмотреть работу другого фильтра
         context['value'] = None
         context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset()) # вписываем наш фильтр в контекст
+        context['form'] = PostForm()
         return context
+    
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST) 
+        if form.is_valid:
+            form.save()
+        return super().get(request, *args, **kwargs)
+
 
 class PostDetailView(DetailView):
     model = Post
     template_name = 'newspaper/post.html'
     context_object_name = 'post'
+
+
+class PostCreateView(PermissionRequiredMixin, CreateView):
+    template_name = 'newspaper/post_create.html'
+    permission_required = 'newspaper.add_post'
+    form_class = PostForm
+
+
+class PostUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
+    template_name = 'newspaper/post_create.html'
+    permission_required = 'newspaper.change_post'
+    form_class = PostForm
+
+    # метод get_object мы используем вместо queryset, чтобы получить информацию об объекте который мы
+    # собираемся редактировать
+    def get_object(self, **rwargs):
+        id = self.kwargs.get('pk')
+        return Post.objects.get(pk=id)
+
+
+# дженерик для удаления товара
+class PostDeleteView(PermissionRequiredMixin, DeleteView):
+    template_name = 'newspaper/post_delete.html'
+    permission_required = 'newspaper.delete_post'
+    queryset = Post.objects.all()
+    success_url = reverse_lazy('newspaper:posts')
 

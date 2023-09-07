@@ -35,7 +35,7 @@
     {% for post in filter.qs %}
     <tr>
         <td>{{ post.id }}</td>
-        <td><a href="{#% url 'newspaper:post_detail' post.id %#}">{{ post.title|censored }}</a></td>
+        <td><a href="{% url 'newspaper:post_detail' post.id %}">{{ post.title|censored }}</a></td>
         <td>{{ post.data_post_creation|date:"d M Y" }}</td>
         <td>{{ post.text|censored|truncatewords:15 }}</td>
         <td>{{ post.author }}</td>
@@ -45,8 +45,8 @@
             <br>
         {% endfor %}
         </td>
-        <td><a href="{#% url 'newspaper:post_update' post.id %#}">Update</a>
-            <a href="{#% url 'newspaper:post_delete' post.id %#}">Delete</a>
+        <td><a href="{% url 'newspaper:post_update' post.id %}">Update</a>
+            <a href="{% url 'newspaper:post_delete' post.id %}">Delete</a>
         </td>
     </tr>
     {% endfor %}
@@ -58,4 +58,9 @@
 {% else %}
     <h2>Новостей нет!</h2>
 {% endif %}
+
+<hr>
+<button class="btn btn-success"><a href="{% url 'newspaper:post_create' %}"style="color:white">Create
+new post</a></button>
+ 
 {% endblock content %}
