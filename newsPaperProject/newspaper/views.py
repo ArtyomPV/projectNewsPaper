@@ -53,13 +53,13 @@ class PostDetailView(DetailView):
     context_object_name = 'post'
 
 
-class PostCreateView(PermissionRequiredMixin, CreateView):
+class PostCreateView(CreateView):
     template_name = 'newspaper/post_create.html'
     permission_required = 'newspaper.add_post'
     form_class = PostForm
 
 
-class PostUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'newspaper/post_create.html'
     permission_required = 'newspaper.change_post'
     form_class = PostForm
@@ -72,7 +72,7 @@ class PostUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
 
 
 # дженерик для удаления товара
-class PostDeleteView(PermissionRequiredMixin, DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'newspaper/post_delete.html'
     permission_required = 'newspaper.delete_post'
     queryset = Post.objects.all()

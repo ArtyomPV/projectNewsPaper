@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     'newspaper.apps.NewspaperConfig',
     'sign',
+    'protect.apps.ProtectConfig',
     'django_filters',
 ]
 
@@ -142,7 +143,7 @@ STATICFILES_DIRS = [
 
 # ============= регистрация на сайте ========================
 
-LOGIN_URL = 'sign/login/' # 4
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/sign/login/' # 4
+LOGIN_REDIRECT_URL = '/posts'
 
 # ============= регистрация на сайте ========================
