@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import ProtectView
+from .views import IndexView, upgrade_me
 
 app_name = 'protect'
 
 urlpatterns = [
-    path('', ProtectView.as_view()),
+    path('', IndexView.as_view()),
+    path('upgrade/', upgrade_me, name='upgrade'),
 ]

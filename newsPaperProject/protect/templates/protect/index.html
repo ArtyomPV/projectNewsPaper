@@ -1,13 +1,23 @@
 {% extends 'layout/base.html' %}
 
 {% block content %}
- <h2>
-   Страница авторизованного пользователя {{request.user.username}}
- </h2>
+<h2>
+  Страница авторизованного пользователя {{request.user.username}}
+</h2>
 
- <div>
-   Здесь может содержаться персональная информация для каждого пользователя
- <div>
-
- <a class="btn btn-primary" href="sign/logout/">Выйти</a>
- {% endblock content %}
+<div>
+  
+  {% if is_not_author %}
+  <h2> Хотите стать автором</h2>
+  <a class="btn btn-info" href="{% url 'protect:upgrade' %}">я автор!</a>
+  {% else %}
+  <h3>Вы в группе Authors</h3>
+  {% endif %}
+  <div>
+    <hr>
+    <div>
+      <h3>Выйти из аккаунта</h3>
+      <a class="btn btn-primary" href="/accounts/logout/">Выйти</a>
+    </div>
+    
+    {% endblock content %}

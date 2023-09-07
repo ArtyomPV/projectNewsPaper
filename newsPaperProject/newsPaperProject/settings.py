@@ -179,4 +179,4 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 
 # ============= allauth =====================================
-# ACCOUNT_FORMS = {'signup': 'sign.forms.BasicSignupForm'}
+ACCOUNT_FORMS = {'signup': 'sign.forms.BasicSignupForm'}
