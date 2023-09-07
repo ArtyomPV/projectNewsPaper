@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-szrcsx^@fk%yvd7ejbl%b2ynxifhww=)x+(1c9lg8wqv7n8$x2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
 
     'newspaper.apps.NewspaperConfig',
-    'django_filters'
+    'sign',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,10 @@ SITE_ID=1
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+# ============= регистрация на сайте ========================
+
+LOGIN_URL = 'sign/login/' # 4
+LOGIN_REDIRECT_URL = '/'
+
+# ============= регистрация на сайте ========================
