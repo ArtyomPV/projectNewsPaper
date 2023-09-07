@@ -11,7 +11,7 @@ from .forms import RegisterForm
 class RegisterView(CreateView):
    model = User
    form_class = RegisterForm
-   template_name = 'sign/register.html'
+   template_name = 'sign/signup.html'
    success_url = '/posts'
 
 class LoginView(FormView):

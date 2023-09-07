@@ -39,6 +39,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    #########
+    # 3rd party apps
+    #########
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # ... здесь нужно указать провайдеры, которые планируете использовать
+    'allauth.socialaccount.providers.google',
+ 
+    #########
+    # User apps
+    #########
     # подключаем ещё приложения
     'django.contrib.sites',
     'django.contrib.flatpages',
@@ -59,6 +71,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'newsPaperProject.urls'
@@ -134,7 +147,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-SITE_ID=1
+SITE_ID = 1
 
 
 STATICFILES_DIRS = [
@@ -143,7 +156,27 @@ STATICFILES_DIRS = [
 
 # ============= регистрация на сайте ========================
 
-LOGIN_URL = '/sign/login/' # 4
+# LOGIN_URL = '/sign/login/'  # 4
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/posts'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/posts'
 
 # ============= регистрация на сайте ========================
+# ============= allauth =====================================
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+
+# ============= allauth =====================================
+# ACCOUNT_FORMS = {'signup': 'sign.forms.BasicSignupForm'}
