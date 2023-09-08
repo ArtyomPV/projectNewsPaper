@@ -41,7 +41,7 @@
         <td>{{ post.author }}</td>
         <td>
         {% for c in post.category.values %}
-        <a href="{#% url 'newspaper:category' c.id %#}">{{ c.name }}</a>
+        <a href="{% url 'newspaper:category' c.id %}">{{ c.name }}</a>
             <br>
         {% endfor %}
         </td>

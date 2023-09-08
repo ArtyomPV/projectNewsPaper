@@ -79,6 +79,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     
+    def get_category(self):
+        return self.name
+    
     class Meta:
         verbose_name = 'Наименование категории'
         verbose_name_plural = 'Наименование категорий'

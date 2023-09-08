@@ -1,0 +1,25 @@
+{% extends 'layout/base.html' %}
+
+
+{% block title %}
+  Category
+{% endblock title %}
+
+{% block content %}
+  <h2>Category {{ category }}</h2>
+{% if category.id %}
+{% if is_subscribed %}
+<div class="subscribe">
+  <em>Subscribe to <strong>{{ category }}?</strong></em>
+  <a class="btn btn-primary" href="{% url 'newspaper:subscribe' category.id %}">Subscribe</a>
+</div>
+{% else %}
+<div class="subscribe">
+  <em><strong>Wish to unsubscribe?</strong></em><br>
+  <a class="btn btn-primary" href="{% url 'newspaper:unsubscribe' category.id %}">Unsubscribe</a>
+</div>
+
+{% endif %}
+{% endif %}
+
+{% endblock content %}
