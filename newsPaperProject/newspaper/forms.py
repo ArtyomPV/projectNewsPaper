@@ -9,13 +9,12 @@ class PostForm(ModelForm):
 
     category = forms.ModelChoiceField(queryset=Category.objects.all(),
             label='Категория',
-            widget=forms.Select(attrs={
-            # 'type': 'text',
-            # 'name': 'category',
-            # 'placeholder': 'Категория не выбрана',
+            widget=forms.SelectMultiple(attrs={
+            'type': 'text',
+            'name': 'category',
+            'placeholder': 'Категория не выбрана',
             'class': 'form-control me-2',
         }))
-    
 
     class Meta:
         model = Post

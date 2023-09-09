@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'sign',
     'protect.apps.ProtectConfig',
     'django_filters',
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
@@ -204,3 +205,11 @@ SERVER_EMAIL = 'artyom.pv@yandex.ru' # это будет у нас вместо 
 
 DEFAULT_FROM_EMAIL = 'artyom.pv@yandex.ru'
 # ============= send_email ==================================
+
+# ============= schedular ==================================
+# формат даты, которую будет воспринимать наш задачник(вспоминаем урок по фильтрам) 
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+ 
+# если задача не выполняется за 25 секунд, то она автоматически снимается, можете поставить время побольше, но как правило, это сильно бьёт по производительности сервера
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
+# ============= schedular ==================================

@@ -18,9 +18,10 @@ from django.utils import timezone
 from django.db.models.signals import post_save
 from django.core.mail import mail_managers
 
+
 def send_message(username, email, title, text):
     html_content = render_to_string(
-        'mail/new_post.html',
+        'email/new_post.html',
         {
             'username': username,
             'title':title,
@@ -106,18 +107,7 @@ class PostCreateView(PermissionRequiredMixin, CreateView):
     permission_required = 'newspaper.add_post'
     form_class = PostForm
 
-    # def form_valid(self, form):
-    #     # получаем имя автора из формы
-    #     author_name = form.cleaned_data['author']
-        
-    #     # проверяем, существует ли автор с таким именем
-    #     author = Author.objects.get_or_create(name=author_name)
-        
-    #     # связываем автора с новостью 
-    #     form.instance.author = author
 
-    #     # сохраняем новость
-    #     return super().form_valid(form)
 
 
 class PostUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
