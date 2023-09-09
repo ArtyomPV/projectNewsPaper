@@ -195,6 +195,7 @@ ADMINS = [
 ]
 MANAGERS = [
     ('Arty', 'artpv@mail.ru'),
+    ('Arty', 'itcoding76@gmail.com'),
     # список всех админов в формате ('имя', 'их почта')
 ]
 SERVER_EMAIL = 'artyom.pv@yandex.ru' # это будет у нас вместо аргумента FROM в массовой рассылке

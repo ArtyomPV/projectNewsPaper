@@ -48,6 +48,9 @@ class Post(models.Model):
     rating_post = models.IntegerField(default=0)
     category = models.ManyToManyField('Category', through='PostCategory')
 
+    def get_category(self):
+        return ",".join([str(p) for p in self.category.all()])
+    
     def __str__(self):
         return f'Post #{self.pk} - Name: {self.title}'
 

@@ -1,20 +1,26 @@
-from django.forms import ModelForm, forms
+from django.forms import ModelForm, forms, Textarea, Select, TextInput
 from .models import Post, Category
 from django import forms
 
 
 class PostForm(ModelForm):
-    # category = forms.ModelChoiceField(queryset=Category.objects.all(),
-    #                                   label='Категория',
-    #                                   widget=forms.Select(attrs={
-    #                                       # 'type': 'text',
-    #                                       'name': 'category',
-    #                                       # 'placeholder': 'Категория на выбрана',
-    #                                       'class': 'form-control me-2',
-    #                                   }))
+
+# ==============================================================================
+
+    category = forms.ModelChoiceField(queryset=Category.objects.all(),
+            label='Категория',
+            widget=forms.Select(attrs={
+            # 'type': 'text',
+            # 'name': 'category',
+            # 'placeholder': 'Категория не выбрана',
+            'class': 'form-control me-2',
+        }))
+    
+
     class Meta:
         model = Post
-        fields = ['author', 'post_type', 'title', 'text']
+        
+        fields = ['author', 'post_type', 'category', 'title', 'text']
         widgets = {
             'author': forms.Select(attrs={
                 'class': 'form-control',
@@ -33,3 +39,4 @@ class PostForm(ModelForm):
                 'placeholder': 'Введите текст статьи'
             }),
         }
+# =====================================================

@@ -7,7 +7,7 @@ class AuthorAdmin(admin.ModelAdmin):
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'author', 'post_type', 'title', 'text', 'data_post_creation')
+    list_display = ('id', 'author', 'post_type', 'title', 'text', 'get_category', 'data_post_creation')
     list_display_links = ('id', 'author', 'title')
     search_fields = ('id', 'title')
 

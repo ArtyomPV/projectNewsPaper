@@ -1,17 +1,65 @@
 from django.contrib.auth.decorators import login_required
+from django.forms.models import BaseModelForm
+from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy, resolve
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-from .models import Post, Category
+from .models import Author, Post, Category
 from .filters import PostFilter
 from .forms import PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.mail import EmailMultiAlternatives
 from datetime import datetime
 from django.utils import timezone
+
+from django.db.models.signals import post_save
+from django.core.mail import mail_managers
+
+def send_message(username, email, title, text):
+    html_content = render_to_string(
+        'mail/new_post.html',
+        {
+            'username': username,
+            'title':title,
+            'text': text
+        }
+    )
+    msg = EmailMultiAlternatives(
+        subject=title,
+        body=text,
+        from_email='artyom.pv@yandex.ru',
+        to=[email]
+    )
+    msg.attach_alternative(html_content,'text/html')
+    msg.send()
+
+def notify_managers_appointment(sender, instance, created, **kwargs):
+    # # в зависимости от того, есть ли такой объект уже в базе данных или нет, тема письма будет разная
+    # if created:
+    #     subject = f'{instance.author} {instance.title}'
+    # else:
+    #     subject = f'Post changed for {instance.author} {instance.title}'
+    
+    title=f'Новый пост: {instance.title}' if created else f'Пост {instance.title} был изменен'
+    text = instance.text[:50]
+    subscribers_data=dict()
+    for category in instance.category:
+        subscribers = category.subscribers.all()
+        for user in subscribers:
+            if user.username not in subscribers_data:
+                subscribers_data[user.username] = user.email
+    for username, email in subscribers_data.items():
+        send_message(username, email, title, text)
+    
+    # text = instance.text[0:123] + '...'
+    # mail_managers(
+    #     subject=subject,
+    #     message=text,
+    # )
+
 
 
 class PostList(ListView):
@@ -57,6 +105,19 @@ class PostCreateView(PermissionRequiredMixin, CreateView):
     template_name = 'newspaper/post_create.html'
     permission_required = 'newspaper.add_post'
     form_class = PostForm
+
+    # def form_valid(self, form):
+    #     # получаем имя автора из формы
+    #     author_name = form.cleaned_data['author']
+        
+    #     # проверяем, существует ли автор с таким именем
+    #     author = Author.objects.get_or_create(name=author_name)
+        
+    #     # связываем автора с новостью 
+    #     form.instance.author = author
+
+    #     # сохраняем новость
+    #     return super().form_valid(form)
 
 
 class PostUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
