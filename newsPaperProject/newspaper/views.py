@@ -17,7 +17,7 @@ from django.utils import timezone
 
 from django.db.models.signals import post_save
 from django.core.mail import mail_managers
-
+from django.core.cache import cache
 
 def send_message(username, email, title, text):
     html_content = render_to_string(
@@ -101,6 +101,12 @@ class PostDetailView(DetailView):
     template_name = 'newspaper/post.html'
     context_object_name = 'post'
 
+    def get_object(self, *args, **kwargs): # переопределяем метод получения объекта, как ни странно
+        obj = cache.get(f'post-{self.kwargs["pk"]}', None) # кэш очень похож на словарь, и метод get действует также. Он забирает значение по ключу, если его нет, то забирает None.
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+        return obj
 
 class PostCreateView(PermissionRequiredMixin, CreateView):
     template_name = 'newspaper/post_create.html'
