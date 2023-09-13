@@ -11,9 +11,17 @@ class PostAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'author', 'title')
     search_fields = ('id', 'title')
 
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    list_display_links = ('name')
+    search_fields = ('id', 'name')
+
+
+
 admin.site.register(Author, AuthorAdmin)
-admin.site.register(Category)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment)
+admin.site.unregister(Post)
 
 # Register your models here.
