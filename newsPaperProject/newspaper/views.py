@@ -19,6 +19,7 @@ from django.db.models.signals import post_save
 from django.core.mail import mail_managers
 from django.core.cache import cache
 
+
 def send_message(username, email, title, text):
     html_content = render_to_string(
         'email/new_post.html',
